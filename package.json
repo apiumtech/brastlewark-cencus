@@ -9,7 +9,7 @@
     "build": "webpack --config webpack/webpack.build.js --NODE_ENV=production",
     "postinstall": "typings install"
   },
-  "author": "Radu Bogdan Matei <rmatei@wearejust.digital>",
+  "author": "Eric Cobos Sanchez <eric.cobos@apiumtech.com>",
   "license": "MIT",
   "dependencies": {
     "angular": "1.4.9",
