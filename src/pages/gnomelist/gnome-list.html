@@ -1,6 +1,5 @@
 <div>
-    <a ng-click="Ctrl.getGnomes()">Get Gnomes</a>
     <div ng-repeat="gnome in gnomeList">
-        {{gnome.id}} - {{gnome.name}}
+        <gnome data="gnome"></gnome>
     </div>
 </div>

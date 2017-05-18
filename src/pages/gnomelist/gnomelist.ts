@@ -51,15 +51,23 @@ export class GnomeListController {
 
     private parseGnomeProfessions(gnome: Gnome, scope: IGnomeListScope) {
         gnome.professions.forEach((profession: string) => {
-            if (scope.professions.indexOf(profession) === -1) {
-                scope.professions.push(profession);
+            try{
+                if (scope.professions.indexOf(profession) === -1) {
+                    scope.professions.push(profession);
+                }
+            }catch(e){
+                scope.professions = [profession];
             }
         });
     }
 
     private parseGnomeHairColor(scope: IGnomeListScope, gnome: Gnome) {
-        if (scope.hairColours.indexOf(gnome.hair_color) === -1) {
-            scope.hairColours.push(gnome.hair_color);
+        try{
+            if (scope.hairColours.indexOf(gnome.hair_color) === -1) {
+                scope.hairColours.push(gnome.hair_color);
+            }
+        }catch(e){
+            scope.hairColours = [gnome.hair_color];
         }
     }
 
