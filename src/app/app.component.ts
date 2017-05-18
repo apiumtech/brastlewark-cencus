@@ -18,13 +18,14 @@ export interface IAppComponentScope  extends ng.IScope {
 }
 
 export class AppComponentCtrl {
-    public static $inject: any = ["$scope", "$http"];
+    public static $inject: any = ["$scope", "$http", "$location"];
     constructor(public $scope: IAppComponentScope,
-                public $http: ng.IHttpService) {
+                public $http: ng.IHttpService,
+                public $location: ng.ILocationService) {
         $scope.SearchedValue = "This is the search value";
     }
 
-    public DoSearch(): void {
-        this.$scope.FoundResult = "Loading from controller";
-    }
+    public isActive (viewLocation) {
+        return viewLocation === this.$location.path();
+    };
 }

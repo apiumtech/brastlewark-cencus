@@ -3,7 +3,6 @@
 ```sh
 npm i webpack typings typescript -g
 npm install
-typings install
 ```
 ## Run
 
