@@ -22,11 +22,6 @@ module.exports = {
             inject: 'body',
             hash: true
         }),
-        new webpack.optimize.UglifyJsPlugin({
-            compressor: {
-                warnings: false
-            }
-        }),
         new BrowserSyncPlugin({
             host: 'localhost',
             port: 8080,

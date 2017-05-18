@@ -4,11 +4,13 @@ export class ComponentTest<TController> {
     public scope: ng.IScope;
     private rootScope: ng.IScope;
     private compile: ng.ICompileService;
+    public q: ng.IQService;
 
     constructor(private template: string, private registerName: string) {
-        angular.mock.inject(($rootScope: ng.IRootScopeService, $compile: ng.ICompileService) => {
+        angular.mock.inject(($rootScope: ng.IRootScopeService, $compile: ng.ICompileService, $q: ng.IQService) => {
             this.rootScope = $rootScope;
             this.compile = $compile;
+            this.q = $q;
         });
     }
 

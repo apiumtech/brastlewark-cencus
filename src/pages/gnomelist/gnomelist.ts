@@ -1,4 +1,5 @@
 import {Gnome} from "../../models/Gnome";
+import {IGnomeService} from "../../services/IGnomeService";
 /**
  * Created by ecobos on 5/17/17.
  */
@@ -17,11 +18,13 @@ export interface IGnomeListScope  extends ng.IScope {
 }
 
 export class GnomeListController {
-    public static $inject: any = ["$scope", "$http"];
-    constructor(public $scope: IGnomeListScope,
-                public $http: ng.IHttpService) {
-        if(!$scope.gnomeList){
-            $scope.gnomeList = [new Gnome("1", "gnomename")];
-        }
+    public static $inject: any = ["$scope", "IGnomeService"];
+    constructor(public $scope: IGnomeListScope, public gnomeService: IGnomeService) {
+        let gnomes = this.gnomeService.getGnomes();
+        gnomes.then((response) => this.setGnomes(response));
+    }
+
+    private setGnomes(response: Gnome[]) {
+        this.$scope.gnomeList = response;
     }
 }
