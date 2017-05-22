@@ -22,26 +22,49 @@ export interface IGnomeListScope  extends ng.IScope {
     minHeight: number;
     maxWeight: number;
     minWeight: number;
+    selectedMinAge: number;
+    selectedMaxAge: number;
+    ageSliderOptions: any;
     Ctrl: GnomeListController;
 }
 
 export class GnomeListController {
-    public static $inject: any = ["$scope", "IGnomeService"];
-    constructor(public $scope: IGnomeListScope, public gnomeService: IGnomeService) {
+    public static $inject: any = ["$scope", "IGnomeService", "$timeout"];
+    constructor(public $scope: IGnomeListScope, public gnomeService: IGnomeService, public $timeout: ng.ITimeoutService) {
         let gnomes = this.gnomeService.getGnomes();
+        $scope.selectedMinAge = 1;
+        $scope.selectedMaxAge = 56;
         gnomes.then((response) => this.setGnomes(response));
+
     }
 
-    private setGnomes(response: Gnome[]) {
+    public setGnomes(response: Gnome[]) {
         this.$scope.gnomeList = response;
         this.parseGnomes(this.$scope.gnomeList, this.$scope);
+        this.$timeout(() => {
+            this.$scope.ageSliderOptions = {
+                min: this.$scope.selectedMinAge,
+                max: this.$scope.selectedMaxAge,
+                options: {
+                    floor: this.$scope.minAge,
+                    ceil: this.$scope.maxAge
+                }
+            };
+            this.$scope.$broadcast('rzSliderForceRender');
+            console.info("SliderOpts", this.$scope);
+        }, 5000);
     }
 
-    private parseGnomes(gnomeList: Gnome[], scope: IGnomeListScope): void{
-        gnomeList.forEach((gnome: Gnome) => this.parseGnome(gnome, scope))
+    public parseGnomes(gnomeList: Gnome[], scope: IGnomeListScope): void{
+        gnomeList.forEach((gnome: Gnome, index, array) => {
+            this.parseGnome(gnome, scope);
+            if(index === array.length -1){
+
+            }
+        })
     }
 
-    private parseGnome(gnome:Gnome, scope: IGnomeListScope): void {
+    public parseGnome(gnome:Gnome, scope: IGnomeListScope): void {
         this.parseGnomeAge(gnome, scope);
         this.parseGnomeHeight(gnome, scope);
         this.parseGnomeWeight(gnome, scope);
@@ -49,7 +72,7 @@ export class GnomeListController {
         this.parseGnomeProfessions(gnome, scope);
     }
 
-    private parseGnomeProfessions(gnome: Gnome, scope: IGnomeListScope) {
+    public parseGnomeProfessions(gnome: Gnome, scope: IGnomeListScope) {
         gnome.professions.forEach((profession: string) => {
             try{
                 if (scope.professions.indexOf(profession) === -1) {
@@ -61,7 +84,7 @@ export class GnomeListController {
         });
     }
 
-    private parseGnomeHairColor(scope: IGnomeListScope, gnome: Gnome) {
+    public parseGnomeHairColor(scope: IGnomeListScope, gnome: Gnome) {
         try{
             if (scope.hairColours.indexOf(gnome.hair_color) === -1) {
                 scope.hairColours.push(gnome.hair_color);
@@ -71,7 +94,7 @@ export class GnomeListController {
         }
     }
 
-    private parseGnomeWeight(gnome: Gnome, scope: IGnomeListScope) {
+    public parseGnomeWeight(gnome: Gnome, scope: IGnomeListScope) {
         if (gnome.weight < scope.minWeight) {
             scope.minWeight = gnome.weight;
         }
@@ -80,7 +103,7 @@ export class GnomeListController {
         }
     }
 
-    private parseGnomeHeight(gnome: Gnome, scope: IGnomeListScope) {
+    public parseGnomeHeight(gnome: Gnome, scope: IGnomeListScope) {
         if (gnome.height < scope.minHeight) {
             scope.minHeight = gnome.height;
         }
@@ -89,11 +112,11 @@ export class GnomeListController {
         }
     }
 
-    private parseGnomeAge(gnome: Gnome, scope: IGnomeListScope) {
-        if (gnome.age < scope.minAge) {
+    public parseGnomeAge(gnome: Gnome, scope: IGnomeListScope) {
+        if (gnome.age < scope.minAge || !scope.minAge) {
             scope.minAge = gnome.age;
         }
-        if (gnome.age > scope.maxAge) {
+        if (gnome.age > scope.maxAge || !scope.maxAge) {
             scope.maxAge = gnome.age;
         }
     }
