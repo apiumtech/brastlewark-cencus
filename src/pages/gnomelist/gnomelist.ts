@@ -15,60 +15,36 @@ export class GnomeListComponent implements ng.IDirective {
 export interface IGnomeListScope  extends ng.IScope {
     gnomeList: Gnome[];
     professions: string[];
-    hairColours: string[];
-    maxAge: number;
-    minAge: number;
-    maxHeight: number;
-    minHeight: number;
-    maxWeight: number;
-    minWeight: number;
-    selectedMinAge: number;
-    selectedMaxAge: number;
-    ageSliderOptions: any;
+    selectedJob: string;
     Ctrl: GnomeListController;
+    showFilters: boolean;
 }
 
 export class GnomeListController {
     public static $inject: any = ["$scope", "IGnomeService", "$timeout"];
     constructor(public $scope: IGnomeListScope, public gnomeService: IGnomeService, public $timeout: ng.ITimeoutService) {
+        $scope.showFilters = false;
         let gnomes = this.gnomeService.getGnomes();
-        $scope.selectedMinAge = 1;
-        $scope.selectedMaxAge = 56;
         gnomes.then((response) => this.setGnomes(response));
-
+        this.$scope.professions = [];
     }
 
     public setGnomes(response: Gnome[]) {
         this.$scope.gnomeList = response;
         this.parseGnomes(this.$scope.gnomeList, this.$scope);
-        this.$timeout(() => {
-            this.$scope.ageSliderOptions = {
-                min: this.$scope.selectedMinAge,
-                max: this.$scope.selectedMaxAge,
-                options: {
-                    floor: this.$scope.minAge,
-                    ceil: this.$scope.maxAge
-                }
-            };
-            this.$scope.$broadcast('rzSliderForceRender');
-            console.info("SliderOpts", this.$scope);
-        }, 5000);
     }
 
     public parseGnomes(gnomeList: Gnome[], scope: IGnomeListScope): void{
-        gnomeList.forEach((gnome: Gnome, index, array) => {
+        gnomeList.forEach((gnome: Gnome) => {
             this.parseGnome(gnome, scope);
-            if(index === array.length -1){
-
-            }
         })
     }
 
+    public onShowFilters (): void{
+        this.$scope.showFilters = true;
+    }
+
     public parseGnome(gnome:Gnome, scope: IGnomeListScope): void {
-        this.parseGnomeAge(gnome, scope);
-        this.parseGnomeHeight(gnome, scope);
-        this.parseGnomeWeight(gnome, scope);
-        this.parseGnomeHairColor(scope, gnome);
         this.parseGnomeProfessions(gnome, scope);
     }
 
@@ -83,43 +59,4 @@ export class GnomeListController {
             }
         });
     }
-
-    public parseGnomeHairColor(scope: IGnomeListScope, gnome: Gnome) {
-        try{
-            if (scope.hairColours.indexOf(gnome.hair_color) === -1) {
-                scope.hairColours.push(gnome.hair_color);
-            }
-        }catch(e){
-            scope.hairColours = [gnome.hair_color];
-        }
-    }
-
-    public parseGnomeWeight(gnome: Gnome, scope: IGnomeListScope) {
-        if (gnome.weight < scope.minWeight) {
-            scope.minWeight = gnome.weight;
-        }
-        if (gnome.weight > scope.maxWeight) {
-            scope.maxWeight = gnome.weight;
-        }
-    }
-
-    public parseGnomeHeight(gnome: Gnome, scope: IGnomeListScope) {
-        if (gnome.height < scope.minHeight) {
-            scope.minHeight = gnome.height;
-        }
-        if (gnome.height > scope.maxHeight) {
-            scope.maxHeight = gnome.height;
-        }
-    }
-
-    public parseGnomeAge(gnome: Gnome, scope: IGnomeListScope) {
-        if (gnome.age < scope.minAge || !scope.minAge) {
-            scope.minAge = gnome.age;
-        }
-        if (gnome.age > scope.maxAge || !scope.maxAge) {
-            scope.maxAge = gnome.age;
-        }
-    }
-
-
 }

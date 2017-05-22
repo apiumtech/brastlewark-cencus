@@ -1,6 +1,13 @@
 <div>
-    <div class="filter">
-        <rzslider rz-slider-model="selectedMinAge" rz-slider-high="selectedMaxAge" rz-slider-options="ageSliderOptions"></rzslider>
+    <div class="container filters">
+        <div class="col-sm-12">
+            <label for="jobsSelect">Job </label>
+            <select id="jobsSelect" ng-model="selectedJob" >
+                <option value="">Select a job</option>
+                <option ng-repeat="profession in professions" value="{{profession}}">{{profession}}</option>
+            </select>
+        </select>
+        </div>
     </div>
     <div ng-repeat="gnome in gnomeList">
         <gnome data="gnome"></gnome>

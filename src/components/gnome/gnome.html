@@ -1,9 +1,21 @@
 <div class="gnome col-sm-12 col-md-6 col-lg-4">
     <div class="top">
-        <img ng-src="{{gnome.thumbnail}}" alt="Avatar">
-        <h4><b>{{gnome.name}}</b></h4>
+        <div class="col-sm-4"><img ng-src="{{gnome.thumbnail}}" alt="Avatar"></div>
+        <div class="col-sm-8">
+            <div class="col-sm-12">
+                <h4><b>{{gnome.name}}</b></h4>
+            </div>
+            <div class="col-sm-4"><label>Age</label>{{gnome.age}}</div>
+            <div class="col-sm-4"><label>Height</label>{{gnome.height}}</div>
+            <div class="col-sm-4"><label>Weight</label>{{gnome.weight}}</div>
+        </div>
     </div>
-    <div class="bottom-row">
-        <p>Architect & Engineer</p>
+    <div class="bottom-row" class="professions">
+        <div class="col-sm-12">
+            <p>Professions: <span ng-repeat="profession in gnome.professions">{{profession}}</span></p>
+        </div>
+        <div class="col-sm-12">
+            <p>Friends: <span ng-repeat="friend in gnome.friends">{{friend}}</span></p>
+        </div>
     </div>
 </div>
