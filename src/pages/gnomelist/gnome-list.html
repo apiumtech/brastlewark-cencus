@@ -1,6 +1,10 @@
-<div>
+<div class="gnome-list">
     <div class="panel panel-default filters">
-        <div class="panel-heading">Filters</div>
+        <div class="panel-heading">Filters
+            <a style="float:right">
+                <i class="fa fa-chevron-circle-down"></i>
+            </a>
+        </div>
         <div class="panel-body">
             <form class="form-horizontal">
                 <div class="input-group col-xs-12 col-md-8 col-md-offset-2">
@@ -10,7 +14,7 @@
                 <div style="margin-top:15px;">
                     <div class="input-group col-xs-12 col-md-8 col-md-offset-2">
                         <select id="jobsSelect" class="form-control" ng-model="selectedJob" ng-change="Ctrl.resetScroll()">
-                            <option value="">Select a job</option>
+                            <option value="">Select a profession</option>
                             <option ng-repeat="profession in professions" value="{{profession}}">{{profession}}</option>
                         </select>
                     </div>
@@ -22,14 +26,22 @@
         <div class="panel-heading">Sorting</div>
         <div class="panel-body">
             <div class="list-group text-center col-xs-12 col-md-8 col-md-offset-2 ">
-                <a href="#" class="list-group-item active">Name</a>
-                <a href="#" class="list-group-item">Age</a>
-                <a href="#" class="list-group-item">Weight</a>
-                <a href="#" class="list-group-item">Height</a>
+                <a class="list-group-item" ng-class="{active: orderProperty === 'name'}" ng-click="Ctrl.sortBy('name')">
+                    Name <span class="sortorder" ng-show="orderProperty === 'name'" ng-class="{reverse: reverse}"></span>
+                </a>
+                <a class="list-group-item" ng-class="{active: orderProperty === 'age'}" ng-click="Ctrl.sortBy('age')">
+                    Age <span class="sortorder" ng-show="orderProperty === 'age'" ng-class="{reverse: reverse}"></span>
+                </a>
+                <a class="list-group-item" ng-class="{active: orderProperty === 'weight'}" ng-click="Ctrl.sortBy('weight')">
+                    Weight <span class="sortorder" ng-show="orderProperty === 'weight'" ng-class="{reverse: reverse}"></span>
+                </a>
+                <a class="list-group-item" ng-class="{active: orderProperty === 'height'}" ng-click="Ctrl.sortBy('height')">
+                    Height <span class="sortorder" ng-show="orderProperty === 'height'" ng-class="{reverse: reverse}"></span>
+                </a>
             </div>
         </div>
     </div>
     <div class="row" infinite-scroll="Ctrl.addMoreItems()" >
-        <gnome data="gnome" ng-repeat="gnome in gnomeListFiltered = (gnomeList | gnomeFilter: this) | limitTo: limitTotalElements "></gnome>
+        <gnome data="gnome" ng-repeat="gnome in gnomeListFiltered = (gnomeList | gnomeFilter: this) | limitTo: limitTotalElements | orderBy:orderProperty:reverse"></gnome>
     </div>
 </div>

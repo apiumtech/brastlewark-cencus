@@ -22,6 +22,8 @@ export interface IGnomeListScope  extends ng.IScope {
     currentPage: number;
     limitTotalElements: number;
     gnomeListFiltered: Gnome[];
+    orderProperty: string;
+    reverse: boolean;
 }
 
 export class GnomeListController {
@@ -29,11 +31,13 @@ export class GnomeListController {
     constructor(public $scope: IGnomeListScope, public gnomeService: IGnomeService) {
         $scope.gnomeListFiltered = [];
         $scope.showFilters = false;
-        let gnomes = this.gnomeService.getGnomes();
-        gnomes.then((response) => this.setGnomes(response));
         this.$scope.professions = [];
         this.$scope.nameFilter = "";
         this.$scope.selectedJob = "";
+        this.$scope.orderProperty = "name";
+        this.$scope.reverse = false;
+        let gnomes = this.gnomeService.getGnomes();
+        gnomes.then((response) => this.setGnomes(response));
         this.resetScroll();
     }
 
@@ -77,4 +81,9 @@ export class GnomeListController {
         this.$scope.currentPage = 1;
         this.$scope.limitTotalElements = 15;
     }
+
+    public sortBy(propertyName) {
+        this.$scope.reverse = (this.$scope.orderProperty === propertyName) ? !this.$scope.reverse : false;
+        this.$scope.orderProperty = propertyName;
+    };
 }

@@ -34,8 +34,7 @@ describe("Gnomelist Component", () => {
         expect(sut.$scope.gnomeList[0].name).toBe("gnomeObjName");
     });
 
-    it("should set min and max age to the scope var", () => {
-        expect(sut.$scope.minAge).toBe(124);
-        expect(sut.$scope.maxAge).toBe(300);
+    it("should set professions array", () => {
+        expect(sut.$scope.professions[0]).toBe("Hairdresser");
     });
 });
