@@ -5,11 +5,11 @@
             <form class="form-horizontal">
                 <div class="input-group col-xs-12 col-md-8 col-md-offset-2">
                     <span class="input-group-addon">Name</span>
-                    <input type="text" class="form-control" placeholder="Start typing the name to filter..." ng-model="nameFilter">
+                    <input type="text" class="form-control" placeholder="Start typing the name to filter..." ng-keyup="Ctrl.resetScroll()" ng-model="nameFilter">
                 </div>
                 <div style="margin-top:15px;">
                     <div class="input-group col-xs-12 col-md-8 col-md-offset-2">
-                        <select id="jobsSelect" class="form-control" ng-model="selectedJob" >
+                        <select id="jobsSelect" class="form-control" ng-model="selectedJob" ng-change="Ctrl.resetScroll()">
                             <option value="">Select a job</option>
                             <option ng-repeat="profession in professions" value="{{profession}}">{{profession}}</option>
                         </select>
@@ -29,7 +29,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <gnome data="gnome" ng-repeat="gnome in gnomeList | gnomeFilter: this"></gnome>
+    <div class="row" infinite-scroll="Ctrl.addMoreItems()" >
+        <gnome data="gnome" ng-repeat="gnome in gnomeListFiltered = (gnomeList | gnomeFilter: this) | limitTo: limitTotalElements "></gnome>
     </div>
 </div>

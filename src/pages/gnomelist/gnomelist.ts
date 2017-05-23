@@ -19,17 +19,22 @@ export interface IGnomeListScope  extends ng.IScope {
     Ctrl: GnomeListController;
     showFilters: boolean;
     nameFilter: string;
+    currentPage: number;
+    limitTotalElements: number;
+    gnomeListFiltered: Gnome[];
 }
 
 export class GnomeListController {
     public static $inject: any = ["$scope", "IGnomeService"];
     constructor(public $scope: IGnomeListScope, public gnomeService: IGnomeService) {
+        $scope.gnomeListFiltered = [];
         $scope.showFilters = false;
         let gnomes = this.gnomeService.getGnomes();
         gnomes.then((response) => this.setGnomes(response));
         this.$scope.professions = [];
         this.$scope.nameFilter = "";
         this.$scope.selectedJob = "";
+        this.resetScroll();
     }
 
     public setGnomes(response: Gnome[]) {
@@ -61,5 +66,15 @@ export class GnomeListController {
                 scope.professions = [profession];
             }
         });
+    }
+
+    public addMoreItems(){
+        this.$scope.currentPage += 1;
+        this.$scope.limitTotalElements = this.$scope.currentPage * 15;
+    }
+
+    public resetScroll(){
+        this.$scope.currentPage = 1;
+        this.$scope.limitTotalElements = 15;
     }
 }
