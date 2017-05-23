@@ -1,15 +1,35 @@
 <div>
-    <div class="container filters">
-        <div class="col-sm-12">
-            <label for="jobsSelect">Job </label>
-            <select id="jobsSelect" ng-model="selectedJob" >
-                <option value="">Select a job</option>
-                <option ng-repeat="profession in professions" value="{{profession}}">{{profession}}</option>
-            </select>
-        </select>
+    <div class="panel panel-default filters">
+        <div class="panel-heading">Filters</div>
+        <div class="panel-body">
+            <form class="form-horizontal">
+                <div class="input-group col-xs-12 col-md-8 col-md-offset-2">
+                    <span class="input-group-addon">Name</span>
+                    <input type="text" class="form-control" placeholder="Start typing the name to filter..." ng-model="nameFilter">
+                </div>
+                <div style="margin-top:15px;">
+                    <div class="input-group col-xs-12 col-md-8 col-md-offset-2">
+                        <select id="jobsSelect" class="form-control" ng-model="selectedJob" >
+                            <option value="">Select a job</option>
+                            <option ng-repeat="profession in professions" value="{{profession}}">{{profession}}</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-    <div ng-repeat="gnome in gnomeList">
-        <gnome data="gnome"></gnome>
+    <div class="panel panel-default filters">
+        <div class="panel-heading">Sorting</div>
+        <div class="panel-body">
+            <div class="list-group text-center col-xs-12 col-md-8 col-md-offset-2 ">
+                <a href="#" class="list-group-item active">Name</a>
+                <a href="#" class="list-group-item">Age</a>
+                <a href="#" class="list-group-item">Weight</a>
+                <a href="#" class="list-group-item">Height</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <gnome data="gnome" ng-repeat="gnome in gnomeList | gnomeFilter: this"></gnome>
     </div>
 </div>

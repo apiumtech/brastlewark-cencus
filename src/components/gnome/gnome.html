@@ -1,21 +1,25 @@
 <div class="gnome col-sm-12 col-md-6 col-lg-4">
-    <div class="top">
-        <div class="col-sm-4"><img ng-src="{{gnome.thumbnail}}" alt="Avatar"></div>
-        <div class="col-sm-8">
-            <div class="col-sm-12">
+    <div class="top row">
+        <div class="col-xs-3">
+            <div class="gnome-tumb" style="background-image:url({{gnome.thumbnail}})"></div>
+        </div>
+        <div class="col-xs-9">
+            <div class="col-xs-12">
                 <h4><b>{{gnome.name}}</b></h4>
             </div>
-            <div class="col-sm-4"><label>Age</label>{{gnome.age}}</div>
-            <div class="col-sm-4"><label>Height</label>{{gnome.height}}</div>
-            <div class="col-sm-4"><label>Weight</label>{{gnome.weight}}</div>
+            <div class="col-xs-4"><div><label>Age</label></div>{{gnome.age}}</div>
+            <div class="col-xs-4"><div><label>Height</label></div>{{gnome.height}}</div>
+            <div class="col-xs-4"><div><label>Weight</label></div>{{gnome.weight}}</div>
         </div>
     </div>
-    <div class="bottom-row" class="professions">
-        <div class="col-sm-12">
-            <p>Professions: <span ng-repeat="profession in gnome.professions">{{profession}}</span></p>
+    <div class="bottom-row row" class="professions">
+        <div class="col-sm-12" style="float:left;width:100%;">
+            <div>Professions</div>
+             <span ng-repeat="profession in gnome.professions" class="label label-primary">{{profession}}</span>
         </div>
-        <div class="col-sm-12">
-            <p>Friends: <span ng-repeat="friend in gnome.friends">{{friend}}</span></p>
+        <div class="col-sm-12" style="float:left;width:100%;margin-top:15px;">
+            <div>Friends</div>
+            <span ng-repeat="friend in gnome.friends" class="label label-success" >{{friend}}</span>
         </div>
     </div>
 </div>

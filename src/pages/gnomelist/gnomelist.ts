@@ -18,15 +18,18 @@ export interface IGnomeListScope  extends ng.IScope {
     selectedJob: string;
     Ctrl: GnomeListController;
     showFilters: boolean;
+    nameFilter: string;
 }
 
 export class GnomeListController {
-    public static $inject: any = ["$scope", "IGnomeService", "$timeout"];
-    constructor(public $scope: IGnomeListScope, public gnomeService: IGnomeService, public $timeout: ng.ITimeoutService) {
+    public static $inject: any = ["$scope", "IGnomeService"];
+    constructor(public $scope: IGnomeListScope, public gnomeService: IGnomeService) {
         $scope.showFilters = false;
         let gnomes = this.gnomeService.getGnomes();
         gnomes.then((response) => this.setGnomes(response));
         this.$scope.professions = [];
+        this.$scope.nameFilter = "";
+        this.$scope.selectedJob = "";
     }
 
     public setGnomes(response: Gnome[]) {
