@@ -1,11 +1,11 @@
 <div class="gnome-list">
     <div class="panel panel-default filters">
         <div class="panel-heading">Filters
-            <a style="float:right">
-                <i class="fa fa-chevron-circle-down"></i>
+            <a ng-click="showFilters= !showFilters">
+                <i class="fa" ng-class="{'fa-chevron-down': !showFilters, 'fa-chevron-up': showFilters}"></i>
             </a>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" ng-show="showFilters">
             <form class="form-horizontal">
                 <div class="input-group col-xs-12 col-md-8 col-md-offset-2">
                     <span class="input-group-addon">Name</span>
@@ -23,8 +23,12 @@
         </div>
     </div>
     <div class="panel panel-default filters">
-        <div class="panel-heading">Sorting</div>
-        <div class="panel-body">
+        <div class="panel-heading">Sorting
+            <a ng-click="showOrder = !showOrder">
+                <i class="fa" ng-class="{'fa-chevron-down': !showOrder, 'fa-chevron-up': showOrder}"></i>
+            </a>
+        </div>
+        <div class="panel-body" ng-show="showOrder">
             <div class="list-group text-center col-xs-12 col-md-8 col-md-offset-2 ">
                 <a class="list-group-item" ng-class="{active: orderProperty === 'name'}" ng-click="Ctrl.sortBy('name')">
                     Name <span class="sortorder" ng-show="orderProperty === 'name'" ng-class="{reverse: reverse}"></span>

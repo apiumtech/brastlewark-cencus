@@ -5,4 +5,17 @@
   .sortorder.reverse:after {
     content: '\25bc';   // BLACK DOWN-POINTING TRIANGLE
   }
+
+  .filters{
+    .panel-heading{
+      a{
+        float:right;
+        color:black;
+        font-size:16px;
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
+  }
 }

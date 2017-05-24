@@ -24,6 +24,7 @@ export interface IGnomeListScope  extends ng.IScope {
     gnomeListFiltered: Gnome[];
     orderProperty: string;
     reverse: boolean;
+    showOrder: boolean;
 }
 
 export class GnomeListController {
@@ -31,6 +32,7 @@ export class GnomeListController {
     constructor(public $scope: IGnomeListScope, public gnomeService: IGnomeService) {
         $scope.gnomeListFiltered = [];
         $scope.showFilters = false;
+        $scope.showOrder = false;
         this.$scope.professions = [];
         this.$scope.nameFilter = "";
         this.$scope.selectedJob = "";
@@ -50,10 +52,6 @@ export class GnomeListController {
         gnomeList.forEach((gnome: Gnome) => {
             this.parseGnome(gnome, scope);
         })
-    }
-
-    public onShowFilters (): void{
-        this.$scope.showFilters = true;
     }
 
     public parseGnome(gnome:Gnome, scope: IGnomeListScope): void {
